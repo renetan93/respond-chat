@@ -1,25 +1,34 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
 
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import '@/global.css';
+import { RootState, store } from '@/store';
+import { Provider, useSelector } from 'react-redux';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function AppLayout() {
   return (
-    
-    <GluestackUIProvider mode="dark">
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <Provider store={store}>
+      <LayoutWrapper />
+    </Provider>
+  );
+}
+
+function LayoutWrapper() {
+  const { theme } = useSelector((state: RootState) => state.app);
+
+  return (
+    <GluestackUIProvider mode={theme}>
+      <ThemeProvider value={theme === 'dark' ? DarkTheme : DefaultTheme}>
+        <AnimatedSplashOverlay />
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
+      </ThemeProvider>
     </GluestackUIProvider>
-  
   );
 }
