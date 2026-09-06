@@ -15,68 +15,67 @@ import {
   MapPinIcon,
   PhoneIcon,
 } from 'lucide-react-native';
+import useUser from '../hooks/useUser';
+import ProfileSkeleton from './components/ProfileSkeleton';
 
 type ProfileScreenProps = {
   userId: number;
 };
 
 const ProfileScreen = ({ userId }: ProfileScreenProps) => {
-  const obj = {
-    id: 1,
-    name: 'Alice Johnson',
-    username: 'alicej',
-    email: 'alice.johnson@example.com',
-    avatar: 'https://i.pravatar.cc/150?img=1',
-    phone: '+1-202-555-0101',
-    website: 'https://alicejohnson.dev',
-    address: {
-      street: '123 Maple St',
-      city: 'Springfield',
-      zipcode: '62704',
-    },
-  };
+  const { data: user, isLoading } = useUser(userId);
+
+  if (isLoading || !user)
+    return (
+      <ScreenContainer className="bg-background">
+        <ProfileSkeleton />
+      </ScreenContainer>
+    );
+
   return (
-    <ScreenContainer>
+    <ScreenContainer className="bg-background">
       <Center>
         <Avatar className="w-40 h-40">
-          <AvatarImage
-            source={{
-              uri: obj.avatar,
-            }}
-          />
-
-          <AvatarFallbackText>{obj.name[0]}</AvatarFallbackText>
+          {user.avatar ? (
+            <AvatarImage
+              source={{
+                uri: user.avatar,
+              }}
+            />
+          ) : (
+            <AvatarFallbackText>{user.name[0]}</AvatarFallbackText>
+          )}
         </Avatar>
 
         <Box className="h-4" />
 
         <Text size="3xl" className="font-bold">
-          {obj.name}
+          {user.name}
         </Text>
       </Center>
 
       <Box className="h-4" />
 
       <ProfileInfoItem icon={MailIcon} title="Email">
-        {obj.email}
+        {user.email}
       </ProfileInfoItem>
 
       <Divider />
 
       <ProfileInfoItem icon={PhoneIcon} title="Phone">
-        {obj.phone}
+        {user.phone}
       </ProfileInfoItem>
 
       <Divider />
 
       <ProfileInfoItem icon={MapPinIcon} title="Address">
-        {obj.address.street}, {obj.address.city}, {obj.address.zipcode}
+        {user.address.street}, {user.address.city}, {user.address.zipcode}
       </ProfileInfoItem>
 
       <Divider />
 
       <ProfileInfoItem icon={GlobeIcon} title="Website">
-        {obj.website}
+        {user.website}
       </ProfileInfoItem>
 
       <Divider />

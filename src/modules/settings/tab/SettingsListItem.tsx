@@ -9,7 +9,7 @@ type SettingsListItemProps = {
 
 const SettingsListItem = ({ title, renderRight }: SettingsListItemProps) => {
   return (
-    <HStack className="p-4 items-center">
+    <HStack className="items-center">
       <Text size="xl" className="font-medium flex-1">
         {title}
       </Text>

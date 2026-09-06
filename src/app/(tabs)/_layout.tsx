@@ -1,9 +1,21 @@
+import { Colors } from '@/constants/theme';
+import { RootState } from '@/store';
 import { Tabs } from 'expo-router';
 import { MessageCircleMoreIcon, SettingsIcon } from 'lucide-react-native';
+import { useSelector } from 'react-redux';
 
 function TabLayout() {
+  const { theme } = useSelector((state: RootState) => state.app);
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor:
+          theme === 'dark' ? Colors.dark.primary : Colors.light.primary,
+        tabBarInactiveTintColor:
+          theme === 'dark'
+            ? Colors.dark.mutedForeground
+            : Colors.light.mutedForeground,
+      }}>
       <Tabs.Screen
         name="chat"
         options={{
