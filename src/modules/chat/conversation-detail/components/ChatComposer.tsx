@@ -3,7 +3,7 @@ import { Divider } from '@/components/ui/divider';
 import { HStack } from '@/components/ui/hstack';
 import { Input, InputField } from '@/components/ui/input';
 import { SendIcon } from 'lucide-react-native';
-import { ComponentRef, Ref, useCallback, useRef } from 'react';
+import { ComponentRef, memo, Ref, useCallback, useRef } from 'react';
 import { LayoutChangeEvent, StyleSheet, TextInput } from 'react-native';
 import { KeyboardStickyView } from 'react-native-keyboard-controller';
 import { SharedValue, withTiming } from 'react-native-reanimated';
@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChatComposer;
+export default memo(ChatComposer);

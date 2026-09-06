@@ -1,5 +1,6 @@
 import { HStack } from '@/components/ui/hstack';
 import { Skeleton, SkeletonText } from '@/components/ui/skeleton';
+import { memo } from 'react';
 
 const ConversationSkeleton = () => {
   return (
@@ -10,4 +11,4 @@ const ConversationSkeleton = () => {
   );
 };
 
-export default ConversationSkeleton;
+export default memo(ConversationSkeleton);

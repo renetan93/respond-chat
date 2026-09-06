@@ -3,6 +3,7 @@ import { Center } from '@/components/ui/center';
 import { Divider } from '@/components/ui/divider';
 import { Skeleton, SkeletonText } from '@/components/ui/skeleton';
 import { VStack } from '@/components/ui/vstack';
+import { memo } from 'react';
 
 const SkeletonItem = () => (
   <Box className="p-4">
@@ -42,4 +43,4 @@ const ProfileSkeleton = () => {
   );
 };
 
-export default ProfileSkeleton;
+export default memo(ProfileSkeleton);

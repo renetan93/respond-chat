@@ -7,9 +7,15 @@ import { HStack } from '@/components/ui/hstack';
 import { Text } from '@/components/ui/text';
 import { User } from '@/types/user';
 import { router } from 'expo-router';
+import { memo } from 'react';
 import { TouchableOpacity } from 'react-native';
 
-const ChatHeaderTitle = ({ user }: { user: User }) => {
+interface ChatHeaderTitleProps {
+  user: User;
+  isBlocked?: boolean;
+}
+
+const ChatHeaderTitle = ({ user, isBlocked }: ChatHeaderTitleProps) => {
   return (
     <TouchableOpacity
       onPress={() =>
@@ -34,10 +40,13 @@ const ChatHeaderTitle = ({ user }: { user: User }) => {
             </AvatarFallbackText>
           )}
         </Avatar>
+        {isBlocked && (
+          <Text className="text-sm text-destructive">(Blocked)</Text>
+        )}
         <Text className="text-lg font-medium">{user.name}</Text>
       </HStack>
     </TouchableOpacity>
   );
 };
 
-export default ChatHeaderTitle;
+export default memo(ChatHeaderTitle);

@@ -2,6 +2,7 @@ import { Box } from '@/components/ui/box';
 import { HStack } from '@/components/ui/hstack';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
+import { memo } from 'react';
 
 const ProfileInfoItem = ({
   title,
@@ -25,4 +26,4 @@ const ProfileInfoItem = ({
   </Box>
 );
 
-export default ProfileInfoItem;
+export default memo(ProfileInfoItem);

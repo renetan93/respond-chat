@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, memo } from 'react';
 import { ScrollViewProps } from 'react-native';
 import {
   KeyboardChatScrollView,
@@ -27,4 +27,4 @@ const ChatScrollView = forwardRef<
 });
 ChatScrollView.displayName = 'ChatScrollView';
 
-export default ChatScrollView;
+export default memo(ChatScrollView);

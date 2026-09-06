@@ -3,6 +3,7 @@ import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
 import { Post } from '@/types/post';
 import { format } from 'date-fns';
+import { memo } from 'react';
 
 type BubbleMessageProps = {
   post: Post;
@@ -22,4 +23,4 @@ const BubbleMessage = ({ post }: BubbleMessageProps) => {
   );
 };
 
-export default BubbleMessage;
+export default memo(BubbleMessage);

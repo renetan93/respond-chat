@@ -8,6 +8,7 @@ import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
 import { Conversation } from '@/types/conversations';
 import { formatTimestamp } from '@/utils';
+import { memo } from 'react';
 import { TouchableOpacity } from 'react-native';
 
 interface ConversationItemProps {
@@ -57,4 +58,4 @@ const ConversationItem = ({
   );
 };
 
-export default ConversationItem;
+export default memo(ConversationItem);
