@@ -11,11 +11,16 @@ import { formatTimestamp } from '@/utils';
 import { TouchableOpacity } from 'react-native';
 
 interface ConversationItemProps {
+  isBlocked?: boolean;
   conversation: Conversation;
   onPress: () => void;
 }
 
-const ConversationItem = ({ conversation, onPress }: ConversationItemProps) => {
+const ConversationItem = ({
+  isBlocked,
+  conversation,
+  onPress,
+}: ConversationItemProps) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <HStack className="p-2 gap-2 items-center">
@@ -35,6 +40,9 @@ const ConversationItem = ({ conversation, onPress }: ConversationItemProps) => {
 
         <VStack className="flex-1 gap-1">
           <HStack className="items-center">
+            {isBlocked && (
+              <Text className="text-sm text-destructive mr-2">(Blocked)</Text>
+            )}
             <Text className="flex-1 text-lg font-medium">
               {conversation.name}
             </Text>

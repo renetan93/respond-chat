@@ -1,27 +1,43 @@
 import { VStack } from '@/components/ui/vstack';
+import { RootState } from '@/store';
 import { Conversation } from '@/types/conversations';
 import { router } from 'expo-router';
+import { useCallback } from 'react';
 import { FlatList, ListRenderItem } from 'react-native';
+import { useSelector } from 'react-redux';
 import ConversationItem from './components/ConversationItem';
 import ConversationSkeleton from './components/ConversationSkeleton';
 import { useConversations } from './hooks/useConversations';
 
-const renderItem: ListRenderItem<Conversation> = ({ item }) => {
-  const onPress = () => {
-    router.navigate({
-      pathname: '/chat/conversation-detail/[userId]',
-      params: {
-        userId: item.id.toString(),
-      },
-    });
-  };
-
-  return <ConversationItem conversation={item} onPress={onPress} />;
-};
-
 const ChatTab = () => {
   const { conversations, loadMore, refetch, isRefetching, isLoading } =
     useConversations();
+
+  const blockedUsers = useSelector(
+    (state: RootState) => state.app.blockedUsers,
+  );
+
+  const renderItem: ListRenderItem<Conversation> = useCallback(
+    ({ item }) => {
+      const onPress = () => {
+        router.navigate({
+          pathname: '/chat/conversation-detail/[userId]',
+          params: {
+            userId: item.id.toString(),
+          },
+        });
+      };
+
+      return (
+        <ConversationItem
+          conversation={item}
+          onPress={onPress}
+          isBlocked={!!blockedUsers[item.id]}
+        />
+      );
+    },
+    [blockedUsers],
+  );
 
   if (isLoading) {
     return (
