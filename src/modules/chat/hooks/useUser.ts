@@ -1,4 +1,4 @@
-import { getUserById } from '@/api/conversations';
+import { getUserById } from '@/api/users';
 import { useQuery } from '@tanstack/react-query';
 
 const useUser = (userId: number) =>

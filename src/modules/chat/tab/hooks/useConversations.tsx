@@ -1,4 +1,4 @@
-import { getConversations } from '@/api/conversations';
+import { getConversations } from '@/api/users';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 
