@@ -7,6 +7,35 @@ Two things to know before you read any code:
 - **No auth, no current user.** Every route is public. The profile card in settings is a hardcoded object in [SettingsTab.tsx](src/modules/settings/tab/SettingsTab.tsx).
 - **The backend is external.** This repo is the client only. See [Backend contract](#backend-contract) for what the API has to serve.
 
+## Screenshots
+
+Android dev build. Files live in [build/screenshots/](build/screenshots/).
+
+### Light
+
+| chats | thread | profile |
+| --- | --- | --- |
+| ![Chats tab: conversation list, every row previewing "hello world"](build/screenshots/Screenshot_20260907_145005_respond-chat.jpg) | ![Message thread with Eva Brown, inverted list and composer](build/screenshots/Screenshot_20260907_145012_respond-chat.jpg) | ![Eva Brown's profile with a Block button in the header](build/screenshots/Screenshot_20260907_145018_respond-chat.jpg) |
+| ![Same list with two rows labelled "(Blocked)"](build/screenshots/Screenshot_20260907_145038_respond-chat.jpg) | ![Thread header labelled "(Blocked)" — the thread stays open](build/screenshots/Screenshot_20260907_145030_respond-chat.jpg) | |
+
+Top row is the default state; bottom row is the same two screens after blocking Eva Brown and Frank Wilson. A blocked user keeps their row, keeps their thread, and just gets labelled — see [State](#state-two-stores-no-bridge).
+
+### Dark
+
+| chats | thread | profile |
+| --- | --- | --- |
+| ![Chats list in dark mode with blocked rows](build/screenshots/Screenshot_20260907_145049_respond-chat.jpg) | ![Blocked thread in dark mode](build/screenshots/Screenshot_20260907_145053_respond-chat.jpg) | ![Profile in dark mode, header button now reads Unblock](build/screenshots/Screenshot_20260907_145056_respond-chat.jpg) |
+
+### Settings
+
+Profile card, theme toggle, app version. The toggle is the whole theme chain in [Styling and theming](#styling-and-theming).
+
+| light | dark |
+| --- | --- |
+| ![Settings tab in light mode, sun side of the toggle active](build/screenshots/Screenshot_20260907_145041_respond-chat.jpg) | ![Settings tab in dark mode, moon side of the toggle active](build/screenshots/Screenshot_20260907_145046_respond-chat.jpg) |
+
+Every row previews the same `hello world` because there is no conversation resource on the backend — see [Backend contract](#backend-contract).
+
 ## Quickstart
 
 Node 22 (matches CI). Note that [.npmrc](.npmrc) sets `legacy-peer-deps=true` — `nativewind@5` is a preview release with unsatisfiable peers, so `npm install` needs it.
