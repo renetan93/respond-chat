@@ -17,14 +17,18 @@ function TabLayout() {
             : Colors.light.mutedForeground,
       }}>
       <Tabs.Screen
-        name="chat"
+        name="index"
         options={{
+          title: 'chats',
           tabBarIcon: ({ color }) => <MessageCircleMoreIcon color={color} />,
         }}
       />
       <Tabs.Screen
         name="settings"
-        options={{ tabBarIcon: ({ color }) => <SettingsIcon color={color} /> }}
+        options={{
+          title: 'settings',
+          tabBarIcon: ({ color }) => <SettingsIcon color={color} />,
+        }}
       />
     </Tabs>
   );

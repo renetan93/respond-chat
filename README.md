@@ -61,7 +61,7 @@ src/
 │   ├── _layout.tsx               # provider stack + root Stack
 │   ├── (tabs)/
 │   │   ├── _layout.tsx           # 2-tab bottom bar
-│   │   ├── chat.tsx
+│   │   ├── index.tsx             # chats tab (default route)
 │   │   └── settings.tsx
 │   └── chat/
 │       ├── conversation-detail/[userId].tsx
@@ -166,7 +166,7 @@ Blocking is local-only: a blocked user stays in the list and stays openable, jus
 
 | Route | File | Module |
 | --- | --- | --- |
-| `/(tabs)/chat` | [chat.tsx](<src/app/(tabs)/chat.tsx>) | `modules/chat/tab` |
+| `/(tabs)` | [index.tsx](<src/app/(tabs)/index.tsx>) | `modules/chat/tab` |
 | `/(tabs)/settings` | [settings.tsx](<src/app/(tabs)/settings.tsx>) | `modules/settings/tab` |
 | `/chat/conversation-detail/[userId]` | [\[userId\].tsx](src/app/chat/conversation-detail/[userId].tsx) | `modules/chat/conversation-detail` |
 | `/chat/profile/[userId]` | [\[userId\].tsx](src/app/chat/profile/[userId].tsx) | `modules/chat/profile` |

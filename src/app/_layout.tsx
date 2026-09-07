@@ -39,6 +39,7 @@ function LayoutWrapper() {
               backgroundColor:
                 theme === 'dark' ? Colors.dark.card : Colors.light.card,
             },
+            headerBackButtonDisplayMode: 'minimal',
           }}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
