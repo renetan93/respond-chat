@@ -35,6 +35,13 @@ const ThemeToggle = ({ className, icon, onPress }: ThemeToggleProps) => {
   );
 };
 
+// Example user object
+const user = {
+  name: 'Tan Choon Chean',
+  email: 'tcc@example.com',
+  avatar: 'https://i.pravatar.cc/250?img=52',
+};
+
 const SettingsTab = () => {
   const dispatch = useDispatch();
   const theme = useSelector((state: RootState) => state.app.theme);
@@ -48,17 +55,26 @@ const SettingsTab = () => {
       <Card>
         <Center>
           <Avatar className="w-40 h-40">
-            <AvatarFallbackText className="text-6xl">TCC</AvatarFallbackText>
-            <AvatarImage source={{ uri: 'https://example.com/avatar.png' }} />
+            {user.avatar ? (
+              <AvatarImage
+                source={{
+                  uri: user.avatar,
+                }}
+              />
+            ) : (
+              <AvatarFallbackText className="text-primary-foreground">
+                {user.name}
+              </AvatarFallbackText>
+            )}
           </Avatar>
 
           <Box className="h-4" />
 
           <Text size="2xl" className="font-bold">
-            Tan Choon Chean
+            {user.name}
           </Text>
           <Text size="lg" className="text-gray-500">
-            tcc@example.com
+            {user.email}
           </Text>
         </Center>
       </Card>

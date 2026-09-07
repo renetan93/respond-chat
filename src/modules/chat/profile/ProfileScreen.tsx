@@ -6,8 +6,10 @@ import {
 } from '@/components/ui/avatar';
 import { Box } from '@/components/ui/box';
 import { Button, ButtonText } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Center } from '@/components/ui/center';
 import { Divider } from '@/components/ui/divider';
+import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { appSliceActions } from '@/modules/app/appSlice';
 import ProfileInfoItem from '@/modules/chat/profile/components/ProfileInfoItem';
@@ -15,6 +17,7 @@ import { RootState } from '@/store';
 import { useNavigation } from 'expo-router';
 import {
   GlobeIcon,
+  InfoIcon,
   MailIcon,
   MapPinIcon,
   PhoneIcon,
@@ -61,10 +64,29 @@ const ProfileScreen = ({ userId }: ProfileScreenProps) => {
     });
   }, [blockUser, unblockUser, isBlocked, navigation]);
 
-  if (isLoading || !user)
+  if (isLoading)
     return (
       <ScreenContainer className="bg-background">
         <ProfileSkeleton />
+      </ScreenContainer>
+    );
+
+  if (!user)
+    return (
+      <ScreenContainer className="bg-background justify-center items-center">
+        <Card>
+          <Center>
+            <Icon as={InfoIcon} className="stroke-muted-foreground h-16 w-16" />
+
+            <Box className="h-4" />
+
+            <Text className="text-lg font-bold">User not found</Text>
+
+            <Text className="text-muted-foreground">
+              The user you are looking for does not exist.
+            </Text>
+          </Center>
+        </Card>
       </ScreenContainer>
     );
 
@@ -79,7 +101,7 @@ const ProfileScreen = ({ userId }: ProfileScreenProps) => {
               }}
             />
           ) : (
-            <AvatarFallbackText>{user.name[0]}</AvatarFallbackText>
+            <AvatarFallbackText>{user.name}</AvatarFallbackText>
           )}
         </Avatar>
 

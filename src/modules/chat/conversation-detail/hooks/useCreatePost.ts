@@ -10,6 +10,8 @@ import { createPost } from '@/api/posts';
 import { Post } from '@/types/post';
 import { generateUniqueNegativeNumber } from '@/utils';
 
+type PostsCache = InfiniteData<IPaginationResponse<Post>>;
+
 export const useCreatePost = (userId: number) => {
   const queryClient = useQueryClient();
 
@@ -18,7 +20,11 @@ export const useCreatePost = (userId: number) => {
   return useMutation({
     mutationFn: createPost,
     onMutate: async (newMessage) => {
-      const previousMessages = queryClient.getQueryData(queryKey);
+      // Cancel in-flight page fetches first, otherwise a response that is
+      // already on the wire lands after the optimistic write and drops it.
+      await queryClient.cancelQueries({ queryKey });
+
+      const previousMessages = queryClient.getQueryData<PostsCache>(queryKey);
 
       const tempId = Crypto.randomUUID();
 
@@ -28,32 +34,46 @@ export const useCreatePost = (userId: number) => {
         id: generateUniqueNegativeNumber(),
       };
 
-      queryClient.setQueryData<InfiniteData<IPaginationResponse<Post>>>(
-        queryKey,
-        (old) => {
-          if (!old) return old;
+      queryClient.setQueryData<PostsCache>(queryKey, (old) => {
+        if (!old) return old;
 
-          return {
-            ...old,
-            pages: old.pages.map((page, index) => {
-              if (index !== 0) return page;
+        return {
+          ...old,
+          pages: old.pages.map((page, index) => {
+            if (index !== 0) return page;
 
-              return {
-                ...page,
-                results: [optimisticMessage, ...page.results],
-              };
-            }),
-          };
-        },
-      );
+            return {
+              ...page,
+              results: [optimisticMessage, ...page.results],
+            };
+          }),
+        };
+      });
 
-      return { previousMessages };
+      return { previousMessages, tempId };
     },
-    onSuccess: () => {
-      console.log('Message sent successfully');
-      // optimistically update the messages cache
+    onSuccess: (createdPost, _newMessage, { tempId }) => {
+      queryClient.setQueryData<PostsCache>(queryKey, (old) => {
+        if (!old) return old;
+
+        return {
+          ...old,
+          pages: old.pages.map((page) => ({
+            ...page,
+            results: page.results.map((post) =>
+              post.tempId === tempId
+                ? { ...post, ...createdPost, tempId: undefined }
+                : post,
+            ),
+          })),
+        };
+      });
     },
-    onError: (error) => {
+    onError: (error, _newMessage, onMutateResult) => {
+      if (onMutateResult) {
+        queryClient.setQueryData(queryKey, onMutateResult.previousMessages);
+      }
+
       console.error('Failed to send message:', error);
     },
   });
