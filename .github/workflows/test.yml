@@ -1,0 +1,39 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Non-blocking on purpose: `npm run lint` reports ~622 pre-existing
+      # problems on main that predate the test setup. Flip this to blocking
+      # (delete continue-on-error) once that backlog is cleared - most of it is
+      # prettier formatting and `npx eslint . --fix` handles the bulk.
+      - name: Lint
+        run: npm run lint
+        continue-on-error: true
+
+      # Also non-blocking, and for the same reason: `tsc --noEmit` reports 83
+      # pre-existing errors on main. 57 of them are in src/components/ui/chat-ai
+      # and src/components/ui/bottomsheet, which are dead code importing five
+      # packages that are not installed - deleting those two directories clears
+      # most of it. Flip this to blocking once the count is zero.
+      - name: Typecheck
+        run: npx tsc --noEmit
+        continue-on-error: true
+
+      - name: Test
+        run: npm run test:ci
