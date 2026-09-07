@@ -17,7 +17,8 @@
         "backgroundImage": "./app-config/assets/images/android-icon-background.png",
         "monochromeImage": "./app-config/assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.renetan93.respondchat"
     },
     "web": {
       "output": "static",
@@ -37,6 +38,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "3d87e30d-7422-452c-ae40-f453ded40610"
+      }
+    },
+    "owner": "renetan93s-team"
   }
 }
