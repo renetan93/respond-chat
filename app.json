@@ -8,7 +8,8 @@
     "scheme": "respondchat",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./app-config/assets/expo.icon"
+      "icon": "./app-config/assets/expo.icon",
+      "bundleIdentifier": "com.renetan93.respondchat"
     },
     "android": {
       "adaptiveIcon": {
@@ -33,7 +34,10 @@
           "image": "./app-config/assets/images/splash-icon.png",
           "imageWidth": 76
         }
-      ]
+      ],
+      "expo-asset",
+      "expo-image",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,

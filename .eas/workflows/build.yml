@@ -1,0 +1,32 @@
+name: Create builds
+
+on:
+  push:
+    branches: ['main']
+
+jobs:
+  run_tests:
+    name: Run unit tests
+    steps:
+      - uses: eas/checkout # Check out the repo
+      - uses: eas/install_node_modules
+      - run: npx jest --ci
+  fingerprint:
+    name: Fingerprint
+    type: fingerprint
+    environment: development
+  get_android_build:
+    name: Check for existing Android build
+    needs: [fingerprint]
+    type: get-build
+    params:
+      fingerprint_hash: ${{ needs.fingerprint.outputs.android_fingerprint_hash }}
+      profile: development
+  build_android:
+    name: Build Android
+    needs: [get_android_build]
+    if: ${{ !needs.get_android_build.outputs.build_id }}
+    type: build
+    params:
+      platform: android
+      profile: development
